@@ -1,7 +1,14 @@
 const flock = []
+let alignSlider, cohesionSlider, seperationSlider
 function setup(){
-    createCanvas(windowWidth, windowHeight)
-    for (let index = 0; index < 200; index++) {
+    textSize(8);
+    createCanvas(windowWidth, windowHeight*(0.80))
+    alignSlider = createSlider(0, 5, 1, 0.1)
+    createP('')
+    cohesionSlider = createSlider(0, 5, 1, 0.1)
+    createP('')
+    seperationSlider = createSlider(0, 5, 1, 0.1)
+    for (let index = 0; index < 150; index++) {
         flock.push(new Boid()) 
     }
     

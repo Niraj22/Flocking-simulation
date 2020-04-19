@@ -96,6 +96,9 @@ class Boid {
         let cohesion = this.cohesion(boids)
         let seperation = this.seperation(boids)
         //accumulating allignment and cohesion force simply by adding
+        seperation.mult(seperationSlider.value())
+        cohesion.mult(cohesionSlider.value())
+        allingment.mult(alignSlider.value())
         this.acceleration.add(seperation) 
         this.acceleration.add(allingment) 
         this.acceleration.add(cohesion)
