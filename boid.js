@@ -21,7 +21,7 @@ class Boid {
     }
 
     align(boids){
-        let perceptionRadius = 60 //define the perception radius
+        let perceptionRadius = 50 //define the perception radius
         let total =0
         let steering = createVector()
         for (let other of boids) {
@@ -43,7 +43,7 @@ class Boid {
     }
 
     cohesion(boids){
-        let perceptionRadius = 100 //define the perception radius
+        let perceptionRadius = 50 //define the perception radius
         let total =0
         let steering = createVector()
         for (let other of boids) {
@@ -65,14 +65,38 @@ class Boid {
        return steering
     }
 
-
+    seperation(boids){
+        let perceptionRadius = 50 //define the perception radius
+        let total =0
+        let steering = createVector()
+        for (let other of boids) {
+            let d = dist(this.position.x, this.position.y,other.position.x,other.position.y) //check the distance
+            if(other != this && d < perceptionRadius){ //check if someone is near me 
+                let diffrence = p5.Vector.sub(this.position, other.position)
+                diffrence.div(d*d)
+                steering.add(diffrence)
+                total++
+            }
+        }
+        if(total > 0)
+        {
+            steering.div(total)
+            steering.setMag(this.maxSpeed)
+            steering.sub(this.velocity)
+            steering.limit(this.maxForce)
+           
+       }
+       return steering
+    }
 
 
     flock(boids){
         this.acceleration.mult(0)
         let allingment = this.align(boids)
         let cohesion = this.cohesion(boids)
+        let seperation = this.seperation(boids)
         //accumulating allignment and cohesion force simply by adding
+        this.acceleration.add(seperation) 
         this.acceleration.add(allingment) 
         this.acceleration.add(cohesion)
     }
@@ -86,8 +110,8 @@ class Boid {
     }
 
     show(){
-        strokeWeight(8)
-        stroke(255)
+        strokeWeight(4)
+        stroke(255,9,25)
         point(this.position.x, this.position.y)
     }
 }
